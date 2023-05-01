@@ -1,0 +1,4 @@
+Django
+dj-rest-auth
+django-pwa
+#rest_framework

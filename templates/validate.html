@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1> Validation</h1>
+<form action="/isvalid"> {% csrf_token %}
+    <input type="text" name="token" placeholder="the key you got">
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

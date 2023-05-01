@@ -1,0 +1,107 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Get new job</h1>
+<a href="/getajob" class="button">Get new job</a>
+<h1>My current jobs</h1>
+<div class="table-wrapper paragraph">
+    <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Link</th>
+            <th>Price</th>
+            <th>Started at</th>
+            <th>Validate</th>
+        </tr>
+        </thead>
+        <tbody>
+          {%  for post in current_jobs %}
+        <tr>
+          <td><a href="{{ post.link }}">{{post.surname}}</a></td>
+            <td>{{ post.amount }}</td>
+            <td>{{ post.taken_at}}</td>
+            <td><a href="/validate/{{post.id}}">Validate</a></td>
+        </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  </div> 
+<h1>My completed jobs</h1>
+<div class="table-wrapper paragraph">
+    <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Link</th>
+            <th>Amount</th>
+            <th>Done at</th>
+        </tr>
+        </thead>
+        <tbody>
+          {%  for post in completed_jobs %}
+        <tr>
+          <td><a href="{{ post.link }}">{{post.surname}}</a></td>
+          <td>{{ post.amount }}</td>
+          <td>{{ post.finished_at}}</td>
+        </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  </div> 
+<h1>My earnings</h1>
+{{earnings}}
+<h2>Ask for a payout</h2>
+Using paypal :
+<form action="https://youtube.fr" method="post">
+    <input type="text" name="amount" placeholder="Amount">
+    <input type="text" name="email" placeholder="Email">
+    <input type="submit" value="Submit">
+</form>
+<h1>My previous payouts</h1>
+<div class="table-wrapper paragraph">
+    <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Paid at</th>
+        </tr>
+        </thead>
+        <tbody>
+          {%  for post in recent_payouts %}
+        <tr>
+            <td>{{ post.amount }}</td>
+            <td>{{ post.date }}</td>
+            <td>{{ post.status }}</td>
+            <td>{{ post.paid_at }}</td>
+        </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  </div> 
+
+<!--
+<h1>My referrals</h1>
+<div class="table-wrapper paragraph">
+    <table class="fl-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Has earned</th>
+            <th>You have earned</th>
+        </tr>
+        </thead>
+        <tbody>
+          {%  for post in recent_referrals %}
+        <tr>
+            <td>{{ post.produit.title }}</td>
+            <td>{{ post.date }}</td>
+            <td>{{ post.produit.price }}</td>
+        </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  </div> 
+-->
+{% endblock %}
