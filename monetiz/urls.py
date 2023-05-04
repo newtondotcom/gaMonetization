@@ -15,14 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from pwa.views import *
 from .views import *
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', register),
     path('admin/', admin.site.urls),
-    path('panel',panel),
+    path('panel/',panel),
     path('getajob',getajob),
     path('validate/<id>',validate),
-    path('isvalid/',isvalid),
     path('legitcheck/<username>',legitcheck),
+    
+    ###PWA
+    path('offline', offline), 
+    
+    ###MUST BE AT THE END (for PWA)
+    path('', include('pwa.urls')),
 ]

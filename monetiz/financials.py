@@ -34,7 +34,7 @@ def get_balance(user):
 
 #Update the balance of a user
 def update_balance(user,amount):
-    req = datas.objects.filter(user=user).get()
+    req = datas.objects.filter(user=user)[0]
     req.balance = req.balance + amount
     req.save()
 

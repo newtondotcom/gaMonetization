@@ -1,11 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from .mail import send_email
 from .jobs import *
 from .financials import *
+from .linkvertise import linkvertise
+from .forms import RegistrationForm
 
-from .forms import RegisterForm
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/panel')
+        else:
+            #Not valid
+            None
+    else:
+        form = RegistrationForm()
 
+    return render(request, 'registration/register.html', {'form': form})
+
+def offline(request):
+    return message(request,"Merci de vous connectez à Internet","/offline",'this page')
+
+def index(request):
+    return render(request,'index.html')
+    
 @login_required
 def panel(request):
     #send_email('Test', 'Test', 'asphalt8fr@gmail.com')
@@ -40,19 +60,10 @@ def validate(request,id):
     if jstarted.objects.filter(user=request.user, id=id).get().done == True:
         return message(request, "You have already completed this job", "/panel", "Panel")
     else:
-        return render(request, 'validate.html',context={"id":id})
-    
-@login_required
-def isvalid(request):
-    trY = request.GET.get('token')
-    id = request.GET.get('id')
-    key = Job.objects.filter(id=id).get().key
-    if key.lower() == trY.lower():
-        update_balance(request.user, Job.objects.filter(id=id).get().amount)
+        amount = jstarted.objects.filter(user=request.user, id=id).get().job.amount
+        update_balance(request.user, amount)
         set_job_done(request.user, id)
         return message(request, "Job validated successfully", "/panel", "Panel")
-    else:
-        return message(request, "Job validation failed", "/panel", "Panel") 
     
 @permission_required('is_staff')
 def legitcheck(request,username):
