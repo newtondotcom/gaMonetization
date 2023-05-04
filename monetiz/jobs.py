@@ -22,9 +22,9 @@ def get_job(user):
     if Job.objects.exclude(jstarted__user=user).count() > 0:
         req = Job.objects.exclude(jstarted__user=user).order_by('?').first()
         set_job(user, req)
-        return True
+        return req
     else:
-        return False
+        return None
     
 #Set a job as done for a user
 def set_job_done(user, id):

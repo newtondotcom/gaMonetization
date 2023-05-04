@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1> {{message}} </h1>
-<a href="{{link}}">Go back to the {{name}}</a>
+<h1> {{message|safe}} </h1>
+<a href="{{link | safe}}">Go back to the {{name}}</a>
 {% endblock %}

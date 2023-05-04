@@ -11,7 +11,6 @@
             <th>Link</th>
             <th>Price</th>
             <th>Started at</th>
-            <th>Validate</th>
         </tr>
         </thead>
         <tbody>
@@ -20,7 +19,6 @@
           <td><a href="{{ post.link }}">{{post.surname}}</a></td>
             <td>{{ post.amount }}</td>
             <td>{{ post.taken_at}}</td>
-            <td><a href="/validate/{{post.id}}">Validate</a></td>
         </tr>
           {% endfor %}
       </tbody>
@@ -48,7 +46,7 @@
       </table>
   </div> 
 <h1>My earnings</h1>
-{{earnings}}
+<div>{{earnings}} points</div>
 <h2>Ask for a payout</h2>
 <!--Using paypal :-->
 <form action="https://youtube.fr" method="post">

@@ -44,8 +44,9 @@ def getajob(request):
     if number_of_job_taken - number_of_jobs_not_done >= 5:
         return message(request, "You have already 5 jobs uncompleted", "/panel", "Panel")
     else:
-        if  get_job(request.user):
-            return message(request, "Job taken successfully", "/panel", "Panel")
+        job = get_job(request.user)
+        if  job!= None:
+            return message(request, 'Job taken successfully ; here is the link to achieve it : <br> <a href="' + job.link + '">'+ job.link + '</a>', "/panel", "Panel")
         else :
             return message(request, "No jobs available anymore", "/panel", "Panel")
 
@@ -55,16 +56,20 @@ def message(request, message, link , name):
     return render(request, 'message.html', context=context)
 
 @login_required
-def validate(request,id):
+def validate(request,id,key):
+    job = Job.objects.filter(id=id).get()
     #Check if the job is done by the user
-    if jstarted.objects.filter(user=request.user, id=id).get().done == True:
+    if jstarted.objects.filter(user=request.user, job=job).get().done == True:
         return message(request, "You have already completed this job", "/panel", "Panel")
     else:
-        amount = jstarted.objects.filter(user=request.user, id=id).get().job.amount
-        update_balance(request.user, amount)
-        set_job_done(request.user, id)
-        return message(request, "Job validated successfully", "/panel", "Panel")
-    
+        if key.lower() == job.key.lower():
+            amount = job.amount
+            update_balance(request.user, amount)
+            set_job_done(request.user, id)
+            return message(request, "Job validated successfully", "/panel", "Panel")
+        else:
+            return message(request, "Wrong key", "/panel", "Panel")
+        
 @permission_required('is_staff')
 def legitcheck(request,username):
     user = User.objects.filter(username=username).get()

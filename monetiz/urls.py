@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('panel/',panel),
     path('getajob',getajob),
-    path('validate/<id>',validate),
+    path('validate/<id>/<key>',validate),
     path('legitcheck/<username>',legitcheck),
     
     ###PWA
